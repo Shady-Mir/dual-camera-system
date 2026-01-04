@@ -2,7 +2,7 @@
 Dual camera system on Raspberry Pi with real-time GUI , adjustable camera parameters, and synchronous image capture inTIFF format.
 # Project Goals  
 1. Development of gaphical user interface (GUI) that displays both camera streams simultaneously and in real time side by side .
-2. 2. Implementation of adjustable camera parameters for each camera:
+2. Implementation of adjustable camera parameters for each camera:
 - Exposure time
 - Gain
 - White balance
