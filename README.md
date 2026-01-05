@@ -14,4 +14,7 @@ Dual camera system on Raspberry Pi with real-time GUI , adjustable camera parame
 - GUI implemented using PyQt6
 - Dual camera control implemented on Raspberry Pi
 - Source code upload in progress
-
+# Current Status 
+- Real time dual camera streamig with adjustable parameters is implemented .
+- Synchronous image capture in TIFF format is supported
+- Further evaluation of camera synchronization accuracy is planned . 
