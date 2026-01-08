@@ -10,8 +10,8 @@ _lock = threading.Lock()
 
 
 _state = {
-    0: {"size": (640, 480), "fps": 30, "awb": "Auto", "exposure_us": 10000, "gain": 1.0},
-    1: {"size": (640, 480), "fps": 30, "awb": "Auto", "exposure_us": 10000, "gain": 1.0},
+    0: {"size": (640, 480), "fps": 30, "awb": "Auto", "exposure_us": 30000, "gain": 4.0},
+    1: {"size": (640, 480), "fps": 30, "awb": "Auto", "exposure_us": 30000, "gain": 4.0},
 }
 
 _AWB_MAP = {
