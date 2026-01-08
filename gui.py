@@ -14,13 +14,12 @@ from cameraaa import (
     capture_tiff_pair
 )
 
-
 def parse_res(text: str):
     w, h = text.lower().split("x")
     return int(w), int(h)
 
 
-class MainWindow(QWidget):  
+class MainWindow(QWidget) :
     def __init__(self):
         super().__init__()
 
@@ -39,7 +38,7 @@ class MainWindow(QWidget):
 
         self.cam1_gain_slider = QSlider(Qt.Orientation.Horizontal)
         self.cam1_gain_slider.setRange(10, 160)      
-        self.cam1_gain_slider.setValue(10)
+        self.cam1_gain_slider.setValue(10)  
 
         self.cam1_wb_box = QComboBox()
         self.cam1_wb_box.addItems(["Auto", "Daylight", "Cloudy", "Fluorescent", "Tungsten"])
@@ -51,23 +50,32 @@ class MainWindow(QWidget):
         self.cam1_fps_box.addItems(["15", "30", "60"])
         self.cam1_fps_box.setCurrentText("30")
         self.cam1_exp_label = QLabel(f"Exposure (us): {self.cam1_exp_slider.value()} µs")
+        self.cam1_gain_label = QLabel(f"Gain: {self.cam1_gain_slider.value()/10:.1f}×"
+        
+)
 
         cam1_layout = QVBoxLayout()
         cam1_layout.addWidget(self.cam1_label)
         cam1_layout.addWidget(self.cam1_exp_label)
         cam1_layout.addWidget(self.cam1_exp_slider)
-        cam1_layout.addWidget(QLabel("Gain (x10)"))
-        cam1_layout.addWidget(self.cam1_gain_slider)
+        cam1_gain_layout = QHBoxLayout()
+        cam1_gain_layout.addWidget(self.cam1_gain_label)
+        cam1_gain_layout.addWidget(self.cam1_gain_slider)
+        cam1_layout.addLayout(cam1_gain_layout)
         cam1_layout.addWidget(QLabel("White balance"))
         cam1_layout.addWidget(self.cam1_wb_box)
         cam1_layout.addWidget(QLabel("Resolution"))
         cam1_layout.addWidget(self.cam1_res_box)
         cam1_layout.addWidget(QLabel("FPS"))
         cam1_layout.addWidget(self.cam1_fps_box)
-
-
         cam1_widget = QWidget()
         cam1_widget.setLayout(cam1_layout)
+        self.cam1_gain_slider.valueChanged.connect(
+            lambda v: (
+                self.cam1_gain_label.setText(f"Gain: {v/10:.1f}×"),
+                set_gain(1, v/10.0)
+            )
+        )      
 
         # CAMMMMMMMMM 1 
         self.cam2_label = QLabel("Camera 1")
@@ -94,12 +102,22 @@ class MainWindow(QWidget):
         self.cam2_fps_box.addItems(["15", "30", "60"])
         self.cam2_fps_box.setCurrentText("30")
         self.cam2_exp_label = QLabel(f"Exposure (us): {self.cam2_exp_slider.value()} µs")
+        self.cam2_gain_label = QLabel(f"Gain: {self.cam2_gain_slider.value()/10:.1f}×"
+)
 
         cam2_layout = QVBoxLayout()
         cam2_layout.addWidget(self.cam2_label)
         cam2_layout.addWidget(self.cam2_exp_label)
         cam2_layout.addWidget(self.cam2_exp_slider)
-        cam2_layout.addWidget(QLabel("Gain (x10)"))
+        cam2_gain_layout = QHBoxLayout()
+        cam2_gain_layout.addWidget(self.cam2_gain_label)
+        cam2_layout.addLayout(cam2_gain_layout)
+        self.cam2_gain_slider.valueChanged.connect(
+            lambda v: (
+                self.cam2_gain_label.setText(f"Gain: {v/10:.1f}×"),
+                set_gain(1, v/10.0)
+            )
+        )      
         cam2_layout.addWidget(self.cam2_gain_slider)
         cam2_layout.addWidget(QLabel("White balance"))
         cam2_layout.addWidget(self.cam2_wb_box)
@@ -107,7 +125,6 @@ class MainWindow(QWidget):
         cam2_layout.addWidget(self.cam2_res_box)
         cam2_layout.addWidget(QLabel("FPS"))
         cam2_layout.addWidget(self.cam2_fps_box)
-
         cam2_widget = QWidget()
         cam2_widget.setLayout(cam2_layout)
 
@@ -151,8 +168,6 @@ class MainWindow(QWidget):
             )
         )
 
-        self.cam1_gain_slider.valueChanged.connect(lambda v: set_gain(0, v / 10.0))
-        self.cam2_gain_slider.valueChanged.connect(lambda v: set_gain(1, v / 10.0))
 
         self.cam1_wb_box.currentTextChanged.connect(lambda t: set_awb(0, t))
         self.cam2_wb_box.currentTextChanged.connect(lambda t: set_awb(1, t))
