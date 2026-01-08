@@ -60,8 +60,14 @@ class MainWindow(QWidget) :
         cam1_layout.addWidget(self.cam1_exp_slider)
         cam1_gain_layout = QHBoxLayout()
         cam1_gain_layout.addWidget(self.cam1_gain_label)
-        cam1_gain_layout.addWidget(self.cam1_gain_slider)
         cam1_layout.addLayout(cam1_gain_layout)
+        cam1_layout.addWidget(self.cam1_gain_slider)
+        self.cam1_gain_slider.valueChanged.connect(
+            lambda v: (
+                self.cam1_gain_label.setText(f"Gain: {v/10:.1f}×"),
+                set_gain(0, v/10.0)
+            )
+        ) 
         cam1_layout.addWidget(QLabel("White balance"))
         cam1_layout.addWidget(self.cam1_wb_box)
         cam1_layout.addWidget(QLabel("Resolution"))
@@ -70,12 +76,7 @@ class MainWindow(QWidget) :
         cam1_layout.addWidget(self.cam1_fps_box)
         cam1_widget = QWidget()
         cam1_widget.setLayout(cam1_layout)
-        self.cam1_gain_slider.valueChanged.connect(
-            lambda v: (
-                self.cam1_gain_label.setText(f"Gain: {v/10:.1f}×"),
-                set_gain(1, v/10.0)
-            )
-        )      
+        
 
         # CAMMMMMMMMM 1 
         self.cam2_label = QLabel("Camera 1")
