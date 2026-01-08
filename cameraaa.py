@@ -1,4 +1,3 @@
-# cameraaa.py
 import cv2
 from picamera2 import Picamera2
 import threading
@@ -128,3 +127,4 @@ def capture_tiff_pair(path0: str, path1: str):    #TIFFFFFFFFF
 
     cv2.imwrite(path0, img0)
     cv2.imwrite(path1, img1)
+
