@@ -226,7 +226,8 @@ class MainWindow(QWidget) :
 
 
     def capture_images(self):
-        folder = self.path_edit.text().strip() or "."
+        folder = self.path_edit.text().strip() or "/home/pi/capture"
+        folder = os.path.abspath(folder)
         os.makedirs(folder, exist_ok=True)
 
         ts = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
